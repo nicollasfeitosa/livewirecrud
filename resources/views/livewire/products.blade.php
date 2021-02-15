@@ -42,6 +42,18 @@
 
     </x-jet-dialog-modal>
 
+    <x-jet-confirmation-modal title="Tem certeza?" wire:model="confirmationOpened">
+
+        @if($productToRemove)
+        <p>Você tem certeza que deseja remover <strong class="capitalize">{{ $productToRemove->name }}</strong>?</p>
+        @endif
+
+        <x-slot name="footer">
+            <x-button.white @click="$dispatch('close')">Cancelar</x-button.white>
+            <x-button.red wire:click="remove">Sim, Confirmo</x-button.red>
+        </x-slot>
+    </x-jet-confirmation-modal>
+
     <div class="rounded-xl overflow-hidden bg-white shadow">
         <table>
             <thead>
@@ -63,8 +75,11 @@
                                 <div class="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden">
                                     <img class="object-cover w-full h-full" src="{{ $product->image }}" alt="Product Image">
                                 </div>
+                            @else
+                                <div class="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden">
+                                    <img class="object-cover w-full h-full" src="https://designshack.net/wp-content/uploads/placeholder-image.png" alt="Product Image">
+                                </div>
                             @endif
-
                         </td>
 
                         <td class="text-cool-gray-900 px-4 py-2">
@@ -90,7 +105,7 @@
                                     <x-icon.pencil-alt class="w-full h-full"></x-icon.pencil-alt>
                                 </x-button>
 
-                                <x-button class="w-7 h-7 p-1 text-red-400 rounded-full bg-white border border-transparent hover:border-red-400 hover:bg-red-400 hover:text-white">
+                                <x-button wire:click="confirmRemove({{ $product->id }})" class="w-7 h-7 p-1 text-red-400 rounded-full bg-white border border-transparent hover:border-red-400 hover:bg-red-400 hover:text-white">
                                     <x-icon.trash class="w-full h-full"></x-icon.trash>
                                 </x-button>
                             </div>

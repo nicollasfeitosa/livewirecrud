@@ -11,6 +11,8 @@ class Products extends Component
     use WithPagination;
 
     public $formModalOpened = false;
+    public $confirmationOpened = false;
+    public ?Product $productToRemove;
     public Product $form;
 
     // Regras de validação
@@ -23,12 +25,6 @@ class Products extends Component
     public function getProductsProperty()
     {
         return Product::latest('id')->paginate();
-    }
-
-
-    public function render()
-    {
-        return view('livewire.products');
     }
 
     public function newProduct()
@@ -50,5 +46,22 @@ class Products extends Component
         $this->validate();
         $this->form->save();
         $this->formModalOpened = false;
+    }
+
+    public function confirmRemove(Product $product)
+    {
+        $this->productToRemove = $product;
+        $this->confirmationOpened = true;
+    }
+
+    public function remove()
+    {
+        $this->productToRemove->delete();
+        $this->confirmationOpened = false;
+    }
+
+    public function render()
+    {
+        return view('livewire.products');
     }
 }

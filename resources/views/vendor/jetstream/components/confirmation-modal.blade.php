@@ -1,4 +1,4 @@
-@props(['id' => null, 'maxWidth' => null])
+@props(['id' => null, 'maxWidth' => null, 'title' => null])
 
 <x-jet-modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -15,7 +15,7 @@
                 </h3>
 
                 <div class="mt-2">
-                    {{ $content }}
+                    {{ $content ?? $slot }}
                 </div>
             </div>
         </div>
