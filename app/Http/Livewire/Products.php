@@ -10,6 +10,8 @@ class Products extends Component
 {
     use WithPagination;
 
+    public $formModalOpened = true;
+
     public function getProductsProperty()
     {
         return Product::latest('id')->paginate();

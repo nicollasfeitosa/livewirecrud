@@ -11,6 +11,9 @@
         </x-button.primary>
     </div>
 
+    <x-jet-dialog-model wire:model="formModalOpened">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est repudiandae, iste laboriosam velit quisquam</p>
+    </x-jet-dialog-model>
 
     <div class="rounded-xl overflow-hidden bg-white shadow">
         <table>
