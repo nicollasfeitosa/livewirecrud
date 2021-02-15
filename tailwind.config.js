@@ -24,13 +24,12 @@ module.exports = {
     },
 
     variants: {
-        textColor: ['group-hover'],
-        backgroundColor: ['even', 'odd'],
-        scale: ['active'],
-        boxShadow: ['active'],
-
         extend: {
-            opacity: ['disabled'],
+            opacity: ['responsive', 'hover', 'focus', 'disabled'],
+            textColor: ['group-hover'],
+            backgroundColor: ['even', 'odd', 'hover'],
+            scale: ['active'],
+            boxShadow: ['hover', 'active'],
         },
     },
 
