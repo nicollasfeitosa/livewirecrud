@@ -23,37 +23,59 @@
                 <th class="text-xs uppercase whitespace-pre text-cool-gray-400 p-4">Actions</th>
             </thead>
             <tbody>
-                <tr class="odd:bg-cool-gray-50">
 
-                    <td class="pl-4">
-                        <div class="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden">
-                            <img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80" alt="Product Image">
-                        </div>
-                    </td>
+                @foreach ($this->products as $product)
 
-                    <td class="text-cool-gray-900 px-4 py-2">
-                        <div class="font-semibold capitalize">ProductName</div>
-                        <div class="text-xs text-cool-gray-500">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Assumenda vero autem vel amet, repellendus quod. Impedit eum eligendi labore, et obcaecati ipsa ducimus similique. Quod voluptatibus a atque deleniti! Cumque!</div>
-                    </td>
+                    <tr class="odd:bg-cool-gray-50">
 
-                    <td class="text-cool-gray-500 text-center px-4 py-2">
-                        <span class="whitespace-pre">R$ 400,00</span>
-                    </td>
+                        <td class="pl-4">
+                            @if($product->image)
+                                <div class="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden">
+                                    <img class="object-cover w-full h-full" src="{{ $product->image }}" alt="Product Image">
+                                </div>
+                            @endif
 
-                    <td class="text-cool-gray-500 text-center px-4 py-2">
-                        <span class="whitespace-pre">created at</span>
-                    </td>
+                        </td>
 
-                    <td class="text-cool-gray-500 text-center px-4 py-2">
-                        <span class="whitespace-pre">updated at</span>
-                    </td>
+                        <td class="text-cool-gray-900 px-4 py-2">
+                            <div class="font-semibold capitalize">{{ $product->name }}</div>
+                            <div class="text-xs text-cool-gray-500">{{ $product->description }}</div>
+                        </td>
 
-                    <td class="text-cool-gray-500 text-center px-4 py-2">
-                        icons
-                    </td>
+                        <td class="text-cool-gray-500 text-center px-4 py-2">
+                            <span class="whitespace-pre">R$ {{ $product->price / 100 }}</span>
+                        </td>
 
-                </tr>
+                        <td class="text-cool-gray-500 text-center px-4 py-2">
+                            <span class="whitespace-pre">{{ $product->created_at->toFormattedDateString() }}</span>
+                        </td>
+
+                        <td class="text-cool-gray-500 text-center px-4 py-2">
+                            <span class="whitespace-pre">{{ $product->updated_at->toFormattedDateString() }}</span>
+                        </td>
+
+                        <td class="text-cool-gray-500 text-center px-4 py-2">
+                            <div class="flex items-center space-x-1">
+                                <x-button class="w-7 h-7 p-1 text-primary-500 rounded-full bg-white border border-transparent hover:border-cool-gray-200 hover:bg-cool-gray-100">
+                                    <x-icon.pencil-alt class="w-full h-full"></x-icon.pencil-alt>
+                                </x-button>
+
+                                <x-button class="w-7 h-7 p-1 text-red-400 rounded-full bg-white border border-transparent hover:border-red-400 hover:bg-red-400 hover:text-white">
+                                    <x-icon.trash class="w-full h-full"></x-icon.trash>
+                                </x-button>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                @endforeach
             </tbody>
         </table>
+
+        @if($this->products->hasPages())
+            <div class="px-4 py-2">
+                {{ $this->products->onEachSide(1)->links() }}
+            </div>
+        @endif
     </div>
 </div>
