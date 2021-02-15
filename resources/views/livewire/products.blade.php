@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-4">
         <h1 class="font-semibold text-4xl text-gray-500">Produtos</h1>
 
-        <x-button.primary>
+        <x-button.primary wire:click="newProduct">
             <div class="flex items-center space-x-2">
                 <x-icon.plus class="w-5 h-5"></x-icon.plus>
                 <span>Criar Produto</span>
@@ -11,9 +11,36 @@
         </x-button.primary>
     </div>
 
-    <x-jet-dialog-model wire:model="formModalOpened">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est repudiandae, iste laboriosam velit quisquam</p>
-    </x-jet-dialog-model>
+    <x-jet-dialog-modal title="Informações do Produto" wire:model="formModalOpened">
+
+        <div class="space-y-4">
+
+            <div>
+                <x-jet-label for="form.name" value="{{ __('Nome') }}"/>
+                <x-jet-input id="form.name" type="text" placeholder="Nome do Produto" class="mt-1 block w-full" wire:model.dfer="form.name" autocomplete="name"/>
+                <x-jet-input-error for="form.name" class="mt-1"></x-jet-input-error>
+            </div>
+
+            <div>
+                <x-jet-label for="form.description" value="{{ __('Descrição') }}"/>
+                <textarea id="form.description" wire:model.dfer="form.description" placeholder="Descrição" class="px-3 py-1.5 rounded-md border w-full shadow-sm outline-none focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-300 border-gray-300 focus:ring-opacity-50" rows="3"></textarea>
+                <x-jet-input-error for="form.description"></x-jet-input-error>
+            </div>
+
+            <div>
+                <x-jet-label for="form.price" value="{{ __('Preço') }}"/>
+                <x-jet-input id="form.price" type="number" step="1" min="0" placeholder="Preço do Produto" class="mt-1 block w-full" wire:model.dfer="form.price" autocomplete="price"/>
+                <x-jet-input-error for="form.price" class="mt-1"></x-jet-input-error>
+            </div>
+
+        </div>
+
+        <x-slot name="footer">
+            <x-button.white @click="$dispatch('close')">Cancelar</x-button.white>
+            <x-button.primary wire:click="save">Salvar</x-button.primary>
+        </x-slot>
+
+    </x-jet-dialog-modal>
 
     <div class="rounded-xl overflow-hidden bg-white shadow">
         <table>
@@ -59,7 +86,7 @@
 
                         <td class="text-cool-gray-500 text-center px-4 py-2">
                             <div class="flex items-center space-x-1">
-                                <x-button class="w-7 h-7 p-1 text-primary-500 rounded-full bg-white border border-transparent hover:border-cool-gray-200 hover:bg-cool-gray-100">
+                                <x-button wire:click="edit({{ $product->id }})" class="w-7 h-7 p-1 text-primary-500 rounded-full bg-white border border-transparent hover:border-cool-gray-200 hover:bg-cool-gray-100">
                                     <x-icon.pencil-alt class="w-full h-full"></x-icon.pencil-alt>
                                 </x-button>
 
