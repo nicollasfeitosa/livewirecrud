@@ -20,5 +20,6 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('home', 'home')->name('home');
     Route::get('products', Products::class)->name('products');
 });

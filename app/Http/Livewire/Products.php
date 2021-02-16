@@ -36,6 +36,8 @@ class Products extends Component
     public function getProductsProperty()
     {
         return Product::latest('id')->paginate();
+        //return Product::query()->where('price', '>', '98500')->paginate();
+        //return Product::query()->where('id', '=', '5')->paginate();
     }
 
     public function newProduct()
