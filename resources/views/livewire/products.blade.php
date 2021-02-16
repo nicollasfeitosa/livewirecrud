@@ -12,8 +12,31 @@
     </div>
 
     <x-jet-dialog-modal title="Informações do Produto" wire:model="formModalOpened">
-
         <div class="space-y-4">
+
+            <div>
+                <x-jet-label for="image" class="mb-1" value="{{__('Imagen')}}"/>
+
+                <div x-data>
+                    @isset($image)
+                        <div @click="$refs.input.click()" class="w-16 h-16 cursor-pointer overflow-hidden rounded-lg">
+                            <img src="{{ $image->temporaryUrl() }}" class="object-cover w-full h-full" alt="Imagen do Produto">
+                        </div>
+                    @elseif(isset($form->image))
+                        <div @click="$refs.input.click()" class="w-16 h-16 cursor-pointer overflow-hidden rounded-lg">
+                            <img src="{{ $form->image }}" class="object-cover w-full h-full" alt="Imagen do Produto">
+                        </div>
+                    @else
+                        <div @click="$refs.input.click()" class="w-16 h-16 cursor-pointer border-2 text-cool-gray-300 hover:text-cool-gray-500 hover:border-cool-gray-400 rounded-lg flex items-center justify-center transition-all duration-150">
+                            <x-icon.camera class="w-8 h-8"></x-icon.camera>
+                        </div>
+                    @endif
+
+                    <input type="file" wire:model="image" x-ref="input" class="hidden">
+                </div>
+
+                <x-jet-input-error for="image"></x-jet-input-error>
+            </div>
 
             <div>
                 <x-jet-label for="form.name" value="{{ __('Nome') }}"/>

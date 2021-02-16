@@ -4,22 +4,33 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Product;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class Products extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
     public $formModalOpened = false;
     public $confirmationOpened = false;
-    public ?Product $productToRemove;
-    public Product $form;
+    public ?Product $productToRemove = null;
+    public ?Product $form = null;
+
+    /** @var TemporaryUploadedFile */
+    public $image = null;
 
     // Regras de validação
-    public $rules = [
+    protected $rules = [
         'form.name' => 'required',
         'form.description' => 'required',
         'form.price' => 'required|integer|min:0',
+    ];
+
+    protected $validationAttributes = [
+        'form.name' => 'nome',
+        'form.description' => 'descrição',
+        'form.price' => 'preço',
     ];
 
     public function getProductsProperty()
@@ -31,6 +42,7 @@ class Products extends Component
     {
         $this->form = new Product();
         $this->formModalOpened = true;
+        $this->image = null;
         $this->clearValidation();
     }
 
@@ -38,6 +50,7 @@ class Products extends Component
     {
         $this->form = $product;
         $this->formModalOpened = true;
+        $this->image = null;
         $this->clearValidation();
     }
 
@@ -46,6 +59,11 @@ class Products extends Component
         $this->validate();
         $this->form->save();
         $this->formModalOpened = false;
+
+        if ($this->image) {
+            $this->form->updateImage($this->image); // TempoparyUploadFile é uma subclasse do UploadFile portanto não é um erro =)
+        }
+
     }
 
     public function confirmRemove(Product $product)
@@ -58,6 +76,7 @@ class Products extends Component
     {
         $this->productToRemove->delete();
         $this->confirmationOpened = false;
+        $this->form = null;
     }
 
     public function render()
